@@ -1,47 +1,79 @@
 import requests
 from bs4 import BeautifulSoup
+# appeler une fonction de recuperation d'un livres
+from fonction import Visite_d_une_page
 
-
-
+link = []
+links=[]
 
 
 url='https://books.toscrape.com/catalogue/category/books/default_15/index.html'  
 
 r = requests.get(url)
-print('product_page_url :' + url)
+# print('product_page_url :' + url)
 
 soup = BeautifulSoup(r.text)
 
-# title = soup.find('title')
-# print(title.text)
-
-results = soup.find('form', {'class':'form-horizontal'})
-
-print(results)
+# appeler une fonction de recuperation d'un livres
 
 
 
-# lien des catégogory
 
-# linko=[]
+
+catego = soup.find('ul',{'class':'breadcrumb'})
+print(catego.text)
+
+
+
+entete = soup.find('div', {'class':"col-sm-8 h1"})
+print(entete.text)
+
+
+
+# link=[]
 # lin=[]
 
 # for a in soup.find('ul',{'class':'nav nav-list'}).findAll('a', href=True):
-# 	linko = a['href'].replace('../','')
-# 	lin.append('https://books.toscrape.com/catalogue/category/books/' + linko)
+# 	link = a['href'].replace('../','')
+# 	lin.append('https://books.toscrape.com/catalogue/category/books/' + link )
 
 # print(lin)
 
 
-# parcourir les differentes pages
+for a in soup.find('ul',{'class':'nav nav-list'}).findAll('a', href=True):
 
-for i in range(1,9):
-	print('https://books.toscrape.com/catalogue/category/books/default_15/page-' + str(i) + '.html')
+	print(a.text)
 
 
-# lien des livres d'une page*
-link = []
-links=[]
+
+results = soup.find('form', {'class':'form-horizontal'})
+
+print(results.text)
+
+warning = soup.find('div', {'class': 'alert alert-warning'})
+print(warning.text)
+
+
+
+
+
+# parcourir les differentes pages d'une catégorie
+
+# nbre=152
+# nbre_page=(int(nbre/20))
+# if (nbre%20 !=0):
+
+# 	print(nbre_page +1)
+
+# for i in range(nbre_page):
+# 	print('https://books.toscrape.com/catalogue/category/books/default_15/page-' +str(i))
+
+
+
+
+# lien des livres des pages d'une caegory
+
+
 for a in soup.find('section').find_all('a',href=True):
 	link = a['href'].replace('../','')
 
@@ -52,17 +84,89 @@ for a in soup.find('section').find_all('a',href=True):
 
 
 
+# page2= soup.find('li', {'class' : 'next'}).find('a')
+# print(page2)
+
+r = requests.get('https://books.toscrape.com/catalogue/category/books/default_15/page-2.html')
+
+
+soup = BeautifulSoup(r.text)
+for b in soup.find('section').find_all('a',href=True):
+	link = b['href'].replace('../','')
+
+	links.append('https://books.toscrape.com/catalogue/' + link  )
+
+
+	print(links)
 
 
 
 
-# parcourir les differentes paginations
+# 	r = requests.get('https://books.toscrape.com/catalogue/category/books/default_15/page-3.html')
+
+
+# soup = BeautifulSoup(r.text)
+# for b in soup.find('section').find_all('a',href=True):
+# 	link = b['href'].replace('../','')
+
+# 	links.append('https://books.toscrape.com/catalogue/' + link  )
+
+
+# 	print(links)
+
+
+# r = requests.get('https://books.toscrape.com/catalogue/category/books/default_15/page-4.html')
+
+
+# soup = BeautifulSoup(r.text)
+# for b in soup.find('section').find_all('a',href=True):
+# 	link = b['href'].replace('../','')
+
+# 	links.append('https://books.toscrape.com/catalogue/' + link  )
+
+
+# 	print(links)
+
+
+# r = requests.get('https://books.toscrape.com/catalogue/category/books/default_15/page-5.html')
+
+
+# soup = BeautifulSoup(r.text)
+# for b in soup.find('section').find_all('a',href=True):
+# 	link = b['href'].replace('../','')
+
+# 	links.append('https://books.toscrape.com/catalogue/' + link  )
+
+
+# 	print(links)
 
 
 
+# 	r = requests.get('https://books.toscrape.com/catalogue/category/books/default_15/page-6.html')
 
-# precedent = soup.find('li', {'class' : 'previous'}).find('a')
-# print(precedent)
+
+# soup = BeautifulSoup(r.text)
+# for b in soup.find('section').find_all('a',href=True):
+# 	link = b['href'].replace('../','')
+
+# 	links.append('https://books.toscrape.com/catalogue/' + link  )
+
+
+# 	print(links)
+
+
+# 	r = requests.get('https://books.toscrape.com/catalogue/category/books/default_15/page-7.html')
+
+
+# soup = BeautifulSoup(r.text)
+# for b in soup.find('section').find_all('a',href=True):
+# 	link = b['href'].replace('../','')
+
+# 	links.append('https://books.toscrape.com/catalogue/' + link  )
+
+
+# 	print(links)
+
 
 
 
